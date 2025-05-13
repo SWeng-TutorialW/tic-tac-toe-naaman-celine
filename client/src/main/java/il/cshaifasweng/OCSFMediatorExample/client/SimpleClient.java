@@ -7,7 +7,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import java.io.IOException;
 
 public class SimpleClient extends AbstractClient {
-	public static String ip = "127.0.0.1";
+	public static String ip = "192.168.59.82";
 	public static int port = 3000;
 	private static SimpleClient client = null;
 
@@ -34,7 +34,11 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post("Opponent Turn");
 		} else if (msg.toString().startsWith("Player") || msg.toString().equals("X") || msg.toString().equals("O")) {
 			EventBus.getDefault().post(msg); // Post status updates directly
-		} else {
+		}
+		else if (msg.toString().contains("Draw")) {
+			EventBus.getDefault().post(msg);
+		}
+		else {
 			int row = Character.getNumericValue(msg.toString().charAt(0));
 			int col = Character.getNumericValue(msg.toString().charAt(1));
 			String operation = msg.toString().substring(2);

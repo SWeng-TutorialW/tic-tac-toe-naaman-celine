@@ -99,7 +99,7 @@ public class SimpleServer extends AbstractServer {
 				sendToAllClients("Player ".concat(currentPlayer ).concat( " Wins!").concat(msgString));
 				return;
 			}else if (isBoardFull()) {
-				sendToAllClients("It's a Draw!".concat(msgString).concat(currentPlayer));
+				sendToAllClients("It's a Draw!");
 				return;
 			}
 			if(currentPlayer.equals("X")){
