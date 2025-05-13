@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="420.0" prefWidth="214.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.Game">
+    <children>
+        <!-- Game Status Label -->
+        <Label fx:id="statusLabel" prefHeight="69.0" prefWidth="99.0" text="Player X's Turn" />
+
+        <!-- 3x3 GridPane -->
+        <GridPane fx:id="boardGrid"
+                  alignment="CENTER" hgap="5" vgap="5"
+                  style="-fx-padding: 0;"
+                  maxWidth="240" maxHeight="240">
+
+            <!-- Row 0 -->
+            <Button fx:id="button00" onAction="#handleButtonClick" text=""
+                    GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="game-button"/>
+            <Button fx:id="button01" onAction="#handleButtonClick" text=""
+                    GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="game-button"/>
+            <Button fx:id="button02" onAction="#handleButtonClick" text=""
+                    GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="game-button"/>
+
+            <!-- Row 1 -->
+            <Button fx:id="button10" onAction="#handleButtonClick" text=""
+                    GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="game-button"/>
+            <Button fx:id="button11" onAction="#handleButtonClick" text=""
+                    GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="game-button"/>
+            <Button fx:id="button12" onAction="#handleButtonClick" text=""
+                    GridPane.rowIndex="1" GridPane.columnIndex="2" styleClass="game-button"/>
+
+            <!-- Row 2 -->
+            <Button fx:id="button20" onAction="#handleButtonClick" text=""
+                    GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="game-button"/>
+            <Button fx:id="button21" onAction="#handleButtonClick" text=""
+                    GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="game-button"/>
+            <Button fx:id="button22" onAction="#handleButtonClick" text=""
+                    GridPane.rowIndex="2" GridPane.columnIndex="2" styleClass="game-button"/>
+
+            <columnConstraints>
+                <ColumnConstraints percentWidth="33.33"/>
+                <ColumnConstraints percentWidth="33.33"/>
+                <ColumnConstraints percentWidth="33.33"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="33.33"/>
+                <RowConstraints percentHeight="33.33"/>
+                <RowConstraints percentHeight="33.33"/>
+            </rowConstraints>
+        </GridPane>
+
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>

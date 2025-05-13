@@ -9,65 +9,65 @@ import java.util.*;
 import java.io.*;
 
 /**
-* The <code> AbstractServer </code> class maintains a thread that waits
-* for connection attempts from clients. When a connection attempt occurs
-* it creates a new <code> ConnectionToClient </code> instance which
-* runs as a thread. When a client is thus connected to the
-* server, the two programs can then exchange <code> Object </code>
-* instances.<p>
-*
-* Method <code> handleMessageFromClient </code> must be defined by
-* a concrete subclass. Several other hook methods may also be
-* overriden.<p>
-*
-* Several public service methods are provided to applications that use
-* this framework, and several hook methods are also available<p>
-*
-* The modifications made to this class in version 2.2 are:
-* <ul>
-* <li> The synchronization of the <code>close()</code> method
-* is now limited to the client threads closing sequence. The
-* call to <code>serverClosed()</code> is outside the synchronized
-* block and is preceeded by a join that garantees that
-* <code>serverStopped()</code> is always called before.
-* <li> Method <code>isClosed()</code> has been added.
-* <li> When a client is accepted, the corresponding
-* connection thread will be created only if the server
-* has not been stopped.
-* </ul>
-* The modifications made to this class in version 2.3 are:
-* <ul>
-* <li> An instance variable refering to the current connection
-* factory. Refer to null value by default, in this case regular
-* <code>ConnectionToClient</code> instances are created as in the
-* previous versions. 
-* <li> Method <code>setConnectionFactory()</code> has been added.
-* <li> In the run method, a call to the connection factory
-* is made if such a factory is available.  
-* <li> Method <code>handleMessageFromClient</code> is not always
-* called depending on the value returned by the 
-* <code>handleMessageFromClient</code> of the <code>ConnectionToClient</code>
-* class.
-* <li> The <code>clientException</code> method is still the one called when
-* an exception is thrown when handling the connection with one client. However
-* <code>ClassNotFoundException</code> and <code>RuntimeException</code> instances
-* can now be received.  
-* <li> The call to <code>serverStopped()</code> has been moved in 
-* the <code>run</code> method.
-* <li> Method <code>isListening()</code> has been modified.
-* <li> Instance variable <code>readToStop</code> is now initialized to <code>true</code>
-* </ul><p>
-*
-* Project Name: OCSF (Object Client-Server Framework)<p>
-*
-* @author Dr Robert Lagani&egrave;re
-* @author Dr Timothy C. Lethbridge
-* @author Fran&ccedil;ois B&eacute;langer
-* @author Paul Holden
-* @version December 2003 (2.31)
-* @see com.lloseng.ocsf.server.ConnectionToClient
-* @see com.lloseng.ocsf.server.AbstractConnectionFactory
-*/
+ * The <code> AbstractServer </code> class maintains a thread that waits
+ * for connection attempts from clients. When a connection attempt occurs
+ * it creates a new <code> ConnectionToClient </code> instance which
+ * runs as a thread. When a client is thus connected to the
+ * server, the two programs can then exchange <code> Object </code>
+ * instances.<p>
+ *
+ * Method <code> handleMessageFromClient </code> must be defined by
+ * a concrete subclass. Several other hook methods may also be
+ * overriden.<p>
+ *
+ * Several public service methods are provided to applications that use
+ * this framework, and several hook methods are also available<p>
+ *
+ * The modifications made to this class in version 2.2 are:
+ * <ul>
+ * <li> The synchronization of the <code>close()</code> method
+ * is now limited to the client threads closing sequence. The
+ * call to <code>serverClosed()</code> is outside the synchronized
+ * block and is preceeded by a join that garantees that
+ * <code>serverStopped()</code> is always called before.
+ * <li> Method <code>isClosed()</code> has been added.
+ * <li> When a client is accepted, the corresponding
+ * connection thread will be created only if the server
+ * has not been stopped.
+ * </ul>
+ * The modifications made to this class in version 2.3 are:
+ * <ul>
+ * <li> An instance variable refering to the current connection
+ * factory. Refer to null value by default, in this case regular
+ * <code>ConnectionToClient</code> instances are created as in the
+ * previous versions.
+ * <li> Method <code>setConnectionFactory()</code> has been added.
+ * <li> In the run method, a call to the connection factory
+ * is made if such a factory is available.
+ * <li> Method <code>handleMessageFromClient</code> is not always
+ * called depending on the value returned by the
+ * <code>handleMessageFromClient</code> of the <code>ConnectionToClient</code>
+ * class.
+ * <li> The <code>clientException</code> method is still the one called when
+ * an exception is thrown when handling the connection with one client. However
+ * <code>ClassNotFoundException</code> and <code>RuntimeException</code> instances
+ * can now be received.
+ * <li> The call to <code>serverStopped()</code> has been moved in
+ * the <code>run</code> method.
+ * <li> Method <code>isListening()</code> has been modified.
+ * <li> Instance variable <code>readToStop</code> is now initialized to <code>true</code>
+ * </ul><p>
+ *
+ * Project Name: OCSF (Object Client-Server Framework)<p>
+ *
+ * @author Dr Robert Lagani&egrave;re
+ * @author Dr Timothy C. Lethbridge
+ * @author Fran&ccedil;ois B&eacute;langer
+ * @author Paul Holden
+ * @version December 2003 (2.31)
+ * @see com.lloseng.ocsf.server.ConnectionToClient
+ * @see com.lloseng.ocsf.server.AbstractConnectionFactory
+ */
 public abstract class AbstractServer implements Runnable
 {
   // INSTANCE VARIABLES *********************************************
@@ -121,7 +121,7 @@ public abstract class AbstractServer implements Runnable
    * instances will be created. Added in version 2.3
    */
   private AbstractConnectionFactory connectionFactory = null;
-  
+
 // CONSTRUCTOR ******************************************************
 
   /**
@@ -134,16 +134,16 @@ public abstract class AbstractServer implements Runnable
     this.port = port;
 
     this.clientThreadGroup =
-      new ThreadGroup("ConnectionToClient threads")
-      {
-        // All uncaught exceptions in connection threads will
-        // be sent to the clientException callback method.
-        public void uncaughtException(
-          Thread thread, Throwable exception)
-        {
-          clientException((ConnectionToClient)thread, exception);
-        }
-      };
+            new ThreadGroup("ConnectionToClient threads")
+            {
+              // All uncaught exceptions in connection threads will
+              // be sent to the clientException callback method.
+              public void uncaughtException(
+                      Thread thread, Throwable exception)
+              {
+                clientException((ConnectionToClient)thread, exception);
+              }
+            };
   }
 
 
@@ -167,7 +167,7 @@ public abstract class AbstractServer implements Runnable
       }
 
       serverSocket.setSoTimeout(timeout);
-      
+
       connectionListener = new Thread(this);
       connectionListener.start();
     }
@@ -296,7 +296,7 @@ public abstract class AbstractServer implements Runnable
   synchronized final public Thread[] getClientConnections()
   {
     Thread[] clientThreadList = new
-      Thread[clientThreadGroup.activeCount()];
+            Thread[clientThreadGroup.activeCount()];
 
     clientThreadGroup.enumerate(clientThreadList);
 
@@ -410,12 +410,12 @@ public abstract class AbstractServer implements Runnable
               if (connectionFactory == null) {
 
                 new ConnectionToClient(
-                  this.clientThreadGroup, clientSocket, this);
-                  
+                        this.clientThreadGroup, clientSocket, this);
+
               } else {        // added in version 2.3
 
                 connectionFactory.createConnection(
-                  this.clientThreadGroup, clientSocket, this);
+                        this.clientThreadGroup, clientSocket, this);
               }
             }
           }
@@ -461,20 +461,20 @@ public abstract class AbstractServer implements Runnable
   /**
    * Hook method called each time a client disconnects.
    * The client is garantee to be disconnected but the thread
-   * is still active until it is asynchronously removed from the thread group. 
+   * is still active until it is asynchronously removed from the thread group.
    * The default implementation does nothing. The method
    * may be overridden by subclasses but should remains synchronized.
    *
    * @param client the connection with the client.
    */
   synchronized protected void clientDisconnected(
-    ConnectionToClient client) {}
+          ConnectionToClient client) {}
 
   /**
    * Hook method called each time an exception is thrown in a
    * ConnectionToClient thread.
    * The method may be overridden by subclasses but should remains
-   * synchronized. 
+   * synchronized.
    * Most exceptions will cause the end of the client's thread except for
    * <code>ClassNotFoundException<\code>s received when an object of
    * unknown class is received and for the <code>RuntimeException</code>s
@@ -484,7 +484,7 @@ public abstract class AbstractServer implements Runnable
    * @param Throwable the exception thrown.
    */
   synchronized protected void clientException(
-    ConnectionToClient client, Throwable exception) {}
+          ConnectionToClient client, Throwable exception) {}
 
   /**
    * Hook method called when the server stops accepting
@@ -530,7 +530,7 @@ public abstract class AbstractServer implements Runnable
    *  sent the message.
    */
   protected abstract void handleMessageFromClient(
-    Object msg, ConnectionToClient client);
+          Object msg, ConnectionToClient client) throws IOException;
 
 
 // METHODS TO BE USED FROM WITHIN THE FRAMEWORK ONLY ----------------
@@ -548,9 +548,13 @@ public abstract class AbstractServer implements Runnable
    *  sent the message.
    */
   final synchronized void receiveMessageFromClient(
-    Object msg, ConnectionToClient client)
+          Object msg, ConnectionToClient client)
   {
-    this.handleMessageFromClient(msg, client);
+    try {
+      this.handleMessageFromClient(msg, client);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
 // End of AbstractServer Class

@@ -106,7 +106,7 @@ public class ObservableSWRClient extends ObservableClient
    * @exception IOException if an I/O error occurs.
    */
   public synchronized Object sendAndWaitForReply(
-                    Object message, Object expectedObject) throws Exception
+          Object message, Object expectedObject) throws Exception
   {
     clearAll();
     expected.add(expectedObject);
@@ -129,7 +129,7 @@ public class ObservableSWRClient extends ObservableClient
    * @exception IOException if an I/O error occurs.
    */
   public synchronized Object sendAndWaitForReply(
-              Object message, List expectedListOfObject) throws Exception
+          Object message, List expectedListOfObject) throws Exception
   {
 
     if (expectedListOfObject!=null)

@@ -8,31 +8,31 @@ import java.net.*;
 import java.io.*;
 
 /**
-* The <code> AbstractConnectionFactory </code> is an abstract class
-* that must be subclassed when one want to use a  
-* subclass of <code> ConnectionToClient </code> class. 
-* The role of this class is to create these connections
-* when required. The creation of such factory is however
-* optional.<p>
-*
-* A factory and the corresponding client connections
-* should be defined when one to handle the received
-* messages inside each <code>ConnectionToClient</code>
-* instances instead of having a centralized handling
-* through the 
-* <code>AbstractServer.handleMessageFromClient()</code>
-* method.
-*
-* Project Name: OCSF (Object Client-Server Framework)<p>
-*
-* @author Dr Robert Lagani&egrave;re
-* @author Dr Timothy C. Lethbridge
-* @author Fran&ccedil;ois B&eacute;langer
-* @author Paul Holden
-* @version August 2003 (2.3)
-* @see com.lloseng.ocsf.server.AbstractServer
-* @see com.lloseng.ocsf.server.ConnectionToClient
-*/
+ * The <code> AbstractConnectionFactory </code> is an abstract class
+ * that must be subclassed when one want to use a
+ * subclass of <code> ConnectionToClient </code> class.
+ * The role of this class is to create these connections
+ * when required. The creation of such factory is however
+ * optional.<p>
+ *
+ * A factory and the corresponding client connections
+ * should be defined when one to handle the received
+ * messages inside each <code>ConnectionToClient</code>
+ * instances instead of having a centralized handling
+ * through the
+ * <code>AbstractServer.handleMessageFromClient()</code>
+ * method.
+ *
+ * Project Name: OCSF (Object Client-Server Framework)<p>
+ *
+ * @author Dr Robert Lagani&egrave;re
+ * @author Dr Timothy C. Lethbridge
+ * @author Fran&ccedil;ois B&eacute;langer
+ * @author Paul Holden
+ * @version August 2003 (2.3)
+ * @see com.lloseng.ocsf.server.AbstractServer
+ * @see com.lloseng.ocsf.server.ConnectionToClient
+ */
 public abstract class AbstractConnectionFactory
 {
 // METHOD DESIGNED TO BE OVERRIDDEN BY CONCRETE SUBCLASSES ---------
@@ -48,6 +48,6 @@ public abstract class AbstractConnectionFactory
    * @param server a reference to the server that created this instance.
    * @exception IOException if an I/O error occur when creating the connection.
    */
-  protected abstract ConnectionToClient createConnection(ThreadGroup group, 
-     Socket clientSocket, AbstractServer server) throws IOException;
+  protected abstract ConnectionToClient createConnection(ThreadGroup group,
+                                                         Socket clientSocket, AbstractServer server) throws IOException;
 }
