@@ -22,17 +22,17 @@
    </rowConstraints>
    <children>
       <!-- שורת 1 -->
-      <Button fx:id="button00" mnemonicParsing="false" text="" GridPane.rowIndex="1" GridPane.columnIndex="0" onAction="#handleButtonClick" />
-      <Button fx:id="button01" mnemonicParsing="false" text="" GridPane.rowIndex="1" GridPane.columnIndex="1" onAction="#handleButtonClick" />
-      <Button fx:id="button02" mnemonicParsing="false" text="" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#handleButtonClick" />
+      <Button fx:id="button00" mnemonicParsing="false" text="" GridPane.rowIndex="1" GridPane.columnIndex="0" onAction="#handleButtonClick" prefWidth="70.0" prefHeight="70.0" style="-fx-translate-x: 50;" />
+      <Button fx:id="button01" mnemonicParsing="false" text="" GridPane.rowIndex="1" GridPane.columnIndex="1" onAction="#handleButtonClick" prefWidth="70.0" prefHeight="70.0" style="-fx-translate-x: 50;" />
+      <Button fx:id="button02" mnemonicParsing="false" text="" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#handleButtonClick" prefWidth="70.0" prefHeight="70.0" style="-fx-translate-x: 50;" />
       <!-- שורת 2 -->
-      <Button fx:id="button10" mnemonicParsing="false" text="" GridPane.rowIndex="2" GridPane.columnIndex="0" onAction="#handleButtonClick" />
-      <Button fx:id="button11" mnemonicParsing="false" text="" GridPane.rowIndex="2" GridPane.columnIndex="1" onAction="#handleButtonClick" />
-      <Button fx:id="button12" mnemonicParsing="false" text="" GridPane.rowIndex="2" GridPane.columnIndex="2" onAction="#handleButtonClick" />
+      <Button fx:id="button10" mnemonicParsing="false" text="" GridPane.rowIndex="2" GridPane.columnIndex="0" onAction="#handleButtonClick" prefWidth="70.0" prefHeight="70.0" style="-fx-translate-x: 50;" />
+      <Button fx:id="button11" mnemonicParsing="false" text="" GridPane.rowIndex="2" GridPane.columnIndex="1" onAction="#handleButtonClick" prefWidth="70.0" prefHeight="70.0" style="-fx-translate-x: 50;" />
+      <Button fx:id="button12" mnemonicParsing="false" text="" GridPane.rowIndex="2" GridPane.columnIndex="2" onAction="#handleButtonClick" prefWidth="70.0" prefHeight="70.0" style="-fx-translate-x: 50;" />
       <!-- שורת 3 -->
-      <Button fx:id="button20" mnemonicParsing="false" text="" GridPane.rowIndex="3" GridPane.columnIndex="0" onAction="#handleButtonClick" />
-      <Button fx:id="button21" mnemonicParsing="false" text="" GridPane.rowIndex="3" GridPane.columnIndex="1" onAction="#handleButtonClick" />
-      <Button fx:id="button22" mnemonicParsing="false" text="" GridPane.rowIndex="3" GridPane.columnIndex="2" onAction="#handleButtonClick" />
+      <Button fx:id="button20" mnemonicParsing="false" text="" GridPane.rowIndex="3" GridPane.columnIndex="0" onAction="#handleButtonClick" prefWidth="70.0" prefHeight="70.0" style="-fx-translate-x: 50;" />
+      <Button fx:id="button21" mnemonicParsing="false" text="" GridPane.rowIndex="3" GridPane.columnIndex="1" onAction="#handleButtonClick" prefWidth="70.0" prefHeight="70.0" style="-fx-translate-x: 50;" />
+      <Button fx:id="button22" mnemonicParsing="false" text="" GridPane.rowIndex="3" GridPane.columnIndex="2" onAction="#handleButtonClick" prefWidth="70.0" prefHeight="70.0" style="-fx-translate-x: 50;" />
       <!-- תווית סטטוס -->
       <Label fx:id="statusLabel" text="תורו של שחקן X" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-font-size: 16; -fx-text-fill: blue;" />
    </children>

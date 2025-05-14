@@ -10,7 +10,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4064a87a-0840-4852-8f05-3e5759048cc6" name="Changes" comment="update" />
+    <list default="true" id="4064a87a-0840-4852-8f05-3e5759048cc6" name="Changes" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/primary.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/resources/il/cshaifasweng/OCSFMediatorExample/client/primary.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/target/classes/il/cshaifasweng/OCSFMediatorExample/client/primary.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/client/target/classes/il/cshaifasweng/OCSFMediatorExample/client/primary.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/server-0.0.1-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/server-0.0.1-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/server-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/server-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/surefire-reports/TEST-il.cshaifasweng.server.AppTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/surefire-reports/TEST-il.cshaifasweng.server.AppTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/target/surefire-reports/il.cshaifasweng.server.AppTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/server/target/surefire-reports/il.cshaifasweng.server.AppTest.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -202,7 +210,7 @@
       <updated>1746795635149</updated>
       <workItem from="1746795636950" duration="3083000" />
       <workItem from="1747065663387" duration="660000" />
-      <workItem from="1747151416223" duration="16304000" />
+      <workItem from="1747151416223" duration="18231000" />
     </task>
     <task id="LOCAL‎-00001" summary="update">
       <option name="closed" value="true" />
