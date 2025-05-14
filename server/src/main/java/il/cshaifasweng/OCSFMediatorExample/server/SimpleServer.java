@@ -5,24 +5,57 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
+import java.io.*;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.SubscribedClient;
 
-public class SimpleServer extends AbstractServer {
+public class SimpleServer extends AbstractServer
+{
 	private static ArrayList<SubscribedClient> SubscribersList = new ArrayList<>();
-	private static int clientCounter = 0;
-	private String[][] board = new String[3][3];
-	private boolean isXTurn = true;
-	private String currentPlayer;
+	int count = 0;
+	private int [][] board = { {0,0,0} ,{0,0,0},{0,0,0}};
+	private int who_turn = 0;
 	public SimpleServer(int port) {
 		super(port);
 
 	}
+	private void start_game() {
+		Random random = new Random();
+		int randomInt = random.nextInt(2);
 
+		String s = "the game has started";
+		int the_first_player = random.nextInt(2);
+		if(the_first_player == 0)
+		{
+			s += "the first player is player number 0";
+			System.out.println(s);
+			sendToAllClients(s);
+		}
+		else
+		{
+			s += "the first player is player number 1";
+			System.out.println(s);
+			sendToAllClients(s);
+			who_turn = 1;
+		}
+	}
+	private boolean checkVictory(int player)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			if (board[i][0] == 1 && board[i][1] == player && board[i][2] == player) return true;
+			if (board[0][i] == player && board[1][i] == player && board[2][i] == player) return true;
+		}
+		if (board[0][0] == player && board[1][1] == player && board[2][2] == player) return true;
+		if (board[0][2] == player && board[1][1] == player && board[2][0] == player) return true;
+		return false;
+	}
 	@Override
-	protected void handleMessageFromClient(Object msg, ConnectionToClient client){
+	protected synchronized void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		String msgString = msg.toString();
+		System.out.println( "SimpleServer" + " " + msgString);
 		if (msgString.startsWith("#warning")) {
 			Warning warning = new Warning("Warning from server!");
 			try {
@@ -32,106 +65,100 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		else if(msgString.startsWith("add client")){
+		else if (msgString.startsWith("add client"))
+		{
 			SubscribedClient connection = new SubscribedClient(client);
 			SubscribersList.add(connection);
-			try {
-				client.sendToClient("client added successfully");
-			} catch (IOException e) {
+			try
+			{
+				String prefix_massegae = "client added successfully,  ";
+				if(SubscribersList.size() < 2)
+				{
+					client.sendToClient( prefix_massegae+ "but you need to wait for another player to connect, you are number 0");
+				}
+				else
+				{
+					client.sendToClient( prefix_massegae+ "there is enough players to play, you are number 1");
+					start_game();
+				}
+
+			}
+			catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
-		else if(msgString.startsWith("remove client")){
-			if(!SubscribersList.isEmpty()){
-				for(SubscribedClient subscribedClient: SubscribersList){
-					if(subscribedClient.getClient().equals(client)){
+		else if (msgString.startsWith("remove client"))
+		{
+			if (!SubscribersList.isEmpty())
+			{
+				for (SubscribedClient subscribedClient : SubscribersList) {
+					if (subscribedClient.getClient().equals(client))
+					{
 						SubscribersList.remove(subscribedClient);
-						clientCounter--;
 						break;
 					}
 				}
 			}
-		} else if (msgString.startsWith("ip and socket changed")) {
-			System.out.format("ip and socket changed successfully for client %s\n", client.getInetAddress().getHostAddress());
-			if(clientCounter==0){
-				clientCounter++;
-				return ;
-			} else if (clientCounter==1) {
-				clientCounter++;
-				try{
-					SubscribersList.getFirst().getClient().sendToClient("Start1");
-					SubscribersList.getLast().getClient().sendToClient("Start");
-					try{
-						wait(1500);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					SubscribersList.getFirst().getClient().sendToClient("Your Turn");
-					SubscribersList.getLast().getClient().sendToClient("Opponent Turn");
-				}catch (IOException e) {
-					e.printStackTrace();
-				}
-				System.out.format("the game started\n");
-			}
-		} else{
-			System.out.format(msgString+"\n");
-			int row = Integer.parseInt(String.valueOf(msgString.charAt(0))); // Convert the first character to an integer
-			int col = Integer.parseInt(String.valueOf(msgString.charAt(1)));
-			if(isXTurn){
-				if(!client.equals(SubscribersList.getFirst().getClient())){
+		}
+		else
+		{
+			System.out.println("0");
+
+			int player = 0;
+			try
+			{
+				//checking turn
+				if(!SubscribersList.get(who_turn).getClient().equals(client))
+				{
+					System.out.println("not your turn");
 					return;
 				}
-				currentPlayer = "X";
-			}else{
-				if(!client.equals(SubscribersList.get(1).getClient())){
-					return;
+
+				if(SubscribersList.get(1).getClient().equals(client))
+				{
+					player = 1;
 				}
-				currentPlayer = "O";
-			}
-			if (board[row][col] != null) return;
-			if(checkWinner("X")||checkWinner("O"))return;
-			msgString = msgString.concat(currentPlayer);
-			sendToAllClients(msgString);
-			board[row][col] = currentPlayer;
-			isXTurn=!isXTurn;
 
-			if (checkWinner(currentPlayer)) {
-				sendToAllClients("Player ".concat(currentPlayer ).concat( " Wins!").concat(msgString));
-				return;
-			}else if (isBoardFull()) {
-				sendToAllClients("It's a Draw!");
-				return;
+				System.out.println(msgString.charAt(0) + " "+msgString.charAt(msgString.length() - 1));
+				int row = (int) msgString.charAt(0) - '0';
+				int colum = (int) msgString.charAt(msgString.length() - 1) - '0';
+				System.out.println("row: " + row);
+				System.out.println("colum: " + colum);
+				count++;
+				if(player == 0)
+				{
+					if(board[row][colum] != 0)
+						throw new RuntimeException("can't add here");
+					board[row][colum] = 1;
+				}
+				else
+				{
+					if(board[row][colum] != 0)
+						throw new RuntimeException("can't add here");
+					board[row][colum] = -1;
+				}
+
+				System.out.println("it is turn of number" + who_turn);
+				who_turn++;
+				who_turn %= 2;
+				SubscribersList.get(who_turn).getClient().sendToClient("the_other_player_added " + row + " " + colum);
+
+				if(checkVictory(1) || checkVictory(2))
+				{
+					throw new RuntimeException("won or draw");
+				}
 			}
-			if(currentPlayer.equals("X")){
-				sendToAllClients("O");
-			}else{
-				sendToAllClients("X");
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				sendToAllClients("the game is over");
+				for(SubscribedClient subscribedClient : SubscribersList)
+				{
+					SubscribersList.remove(subscribedClient);
+				}
+
 			}
 		}
-	}
-	private boolean checkWinner(String player) {
-		// Check rows, columns, and diagonals for a win
-		for (int i = 0; i < 3; i++) {
-			// Check rows
-			if (player.equals(board[i][0]) && player.equals(board[i][1]) && player.equals(board[i][2])) return true;
-			// Check columns
-			if (player.equals(board[0][i]) && player.equals(board[1][i]) && player.equals(board[2][i])) return true;
-		}
-		// Check diagonals
-		if (player.equals(board[0][0]) && player.equals(board[1][1]) && player.equals(board[2][2])) return true;
-		if (player.equals(board[0][2]) && player.equals(board[1][1]) && player.equals(board[2][0])) return true;
-
-		return false;
-	}
-
-	private boolean isBoardFull() {
-		// Check if all cells are filled
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				if (board[i][j] == null) return false;
-			}
-		}
-		return true;
 	}
 	public void sendToAllClients(String message) {
 		try {

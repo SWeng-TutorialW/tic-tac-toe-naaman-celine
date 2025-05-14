@@ -1,55 +1,73 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import org.greenrobot.eventbus.EventBus;
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
-import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 
 import java.io.IOException;
 
 public class SimpleClient extends AbstractClient {
-	public static String ip = "192.168.59.82";
-	public static int port = 3000;
+
+	private int player_number = 0;
 	private static SimpleClient client = null;
+	char signal;
+	boolean isFirstTurn = false;
 
 	private SimpleClient(String host, int port) {
 		super(host, port);
-		Game.getGame();
 	}
 
 	@Override
-	protected void handleMessageFromServer(Object msg) {
-		System.out.println(msg.toString());
-		//test
+	protected void handleMessageFromServer(Object msg)
+	{
 		if (msg instanceof Warning) {
-			EventBus.getDefault().post(msg); // Post the Warning directly
-		} else if (msg.toString().startsWith("client")) {
-			return;
-		} else if (msg.toString().equals("Start1")) {
-			EventBus.getDefault().post("Start1");
-		} else if (msg.toString().equals("Start")) {
-			EventBus.getDefault().post("Start");
-		} else if (msg.toString().equals("Your Turn")) {
-			EventBus.getDefault().post("Your Turn");
-		} else if (msg.toString().equals("Opponent Turn")) {
-			EventBus.getDefault().post("Opponent Turn");
-		} else if (msg.toString().startsWith("Player") || msg.toString().equals("X") || msg.toString().equals("O")) {
-			EventBus.getDefault().post(msg); // Post status updates directly
+			EventBus.getDefault().post("ERROR");
 		}
-		else if (msg.toString().contains("Draw")) {
-			EventBus.getDefault().post(msg);
-		}
-		else {
-			int row = Character.getNumericValue(msg.toString().charAt(0));
-			int col = Character.getNumericValue(msg.toString().charAt(1));
-			String operation = msg.toString().substring(2);
-			EventBus.getDefault().post(new Object[] { row, col, operation }); // Send board updates
+		else if (msg instanceof String) {
+			System.out.println((String) msg);
+			String message = (String) msg;
+			if(message.startsWith("client added successfully,"))
+			{
+				if(!message.contains("but"))
+				{
+					EventBus.getDefault().post("the game will start soon");
+					player_number++;
+				}
+				else
+				{
+					EventBus.getDefault().post("wait for another player");
+				}
+			}
+			if (message.startsWith("the game has started"))
+			{
+				if( (message.contains("0") && player_number == 0) || (message.contains("1") && player_number == 1) )
+				{
+					signal = 'X';
+					isFirstTurn = true;
+				}
+				else
+				{
+					signal = 'O';
+				}
+				EventBus.getDefault().post("the game started " + signal + " " + isFirstTurn);
+			}
+			else if (message.startsWith("the_other_player_added")) {
+				String[] parts = message.split(" ");
+				int row = Integer.parseInt(parts[1]);
+				int col = Integer.parseInt(parts[2]);
+				char c = (signal == 'X') ? 'O' : 'X';
+				EventBus.getDefault().post("the_other_player_added " + row +" "+ col +" "+ c);
+			}
 		}
 	}
 
-	public static SimpleClient getClient() {
+	public static synchronized SimpleClient getClient() {
 		if (client == null) {
-			client = new SimpleClient(ip, port);
+			System.out.println("Enter host address: ");
+			String host = new java.util.Scanner(System.in).nextLine();
+			client = new SimpleClient(host, 3000);
 		}
 		return client;
 	}
+
 }
